@@ -16,8 +16,8 @@ import lombok.Value;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/redis/employee")
-public class EmployeeController {
+@RequestMapping("/redis/hash/employee")
+public class EmployeeHashController {
 
 	@Autowired
 	private EmployeeService employeeService;
