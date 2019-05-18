@@ -35,12 +35,12 @@ public class EmployeeController {
 	}*/
 	
 	@GetMapping("/{key}")
-	Mono<Employee> getEmployee(@PathVariable String key){
+	Mono<Object> getEmployee(@PathVariable String key){
 		/*return employeeService.findByKey(key)
 				.map(employee -> ResponseEntity.ok(employee))
 								.defaultIfEmpty(ResponseEntity.notFound().build());*/
 		System.out.println("EmployeeController @@GetMapping "+key);
-		Mono<Employee> monoemployee=  employeeService.findByKey(key);
+		Mono<Object> monoemployee=  employeeService.findByKey(key);
 		System.out.println("success get employee=>"+monoemployee);
 		return monoemployee;
 	}
@@ -56,13 +56,11 @@ public class EmployeeController {
 		return Mono.just(ResponseEntity.ok(employee));
 	}*/
 	
-	@PostMapping("/{key}")
-	Mono<Employee> createEmployee(@PathVariable String key,@RequestBody Employee newEmployee){
+	@PostMapping("")
+	Mono<Boolean> createEmployee(@RequestBody Employee newEmployee){
 		/*return employeeService.save(key,newEmployee)
 								.map(employee -> ResponseEntity.ok(employee));*/
-		System.out.println("EmployeeController @PostMapping "+key+" employee "+newEmployee);
-		Mono<Employee> monoemployee= employeeService.save(key,newEmployee);
-		System.out.println("success post employee=>"+monoemployee);
-		return monoemployee;
+		System.out.println("EmployeeController @PostMapping employee "+newEmployee);
+		return employeeService.save(newEmployee).doOnSuccess(System.out :: println);
 	}
 }

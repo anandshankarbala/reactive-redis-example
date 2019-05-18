@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Employee;
-import com.example.demo.repo.ReactiveRedisRepo;
+import com.example.demo.repo.ReactiveRedisRepoImpl;
 
 import reactor.core.publisher.Mono;
 
@@ -12,15 +12,15 @@ import reactor.core.publisher.Mono;
 public class EmployeeService {
 
 	@Autowired
-	private ReactiveRedisRepo reactiveRedisRepo;
+	private ReactiveRedisRepoImpl reactiveRedisRepo;
 	
-	public Mono<Employee> save(String key ,Employee employee){
+	public Mono<Boolean> save(Employee employee){
 		System.out.println("EmployeeService post save Employee");
-		return reactiveRedisRepo.save(key, employee);
+		return reactiveRedisRepo.save( employee);
 	}
 	
-	public Mono<Employee> findByKey(String key){
+	public Mono<Object> findByKey(String objKey){
 		System.out.println("EmployeeService get findByKey Employee");
-		return reactiveRedisRepo.findByKey(key);
+		return reactiveRedisRepo.findByKey(objKey);
 	}
 }
