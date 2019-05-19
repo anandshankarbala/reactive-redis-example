@@ -1,6 +1,11 @@
 package com.example.demo.controller;
 
+import java.time.Duration;
+import java.util.Date;
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.entity.Employee;
 import com.example.demo.service.EmployeeService;
 
+import io.netty.util.internal.ThreadLocalRandom;
 import lombok.Value;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -62,5 +69,14 @@ public class EmployeeHashController {
 								.map(employee -> ResponseEntity.ok(employee));*/
 		System.out.println("EmployeeController @PostMapping employee "+newEmployee);
 		return employeeService.save(newEmployee).doOnSuccess(System.out :: println);
+	}
+	
+	@GetMapping(value="/getFluxStream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+	Flux<Employee> getEmployeeStream(){
+		System.out.println("getFluxStream console");
+		return Flux.<Employee>generate(sink -> 
+							sink.next(
+									new Employee("1234567",(new Date()).toString(),"random-value1")))
+        .delayElements(Duration.ofSeconds(1));
 	}
 }
