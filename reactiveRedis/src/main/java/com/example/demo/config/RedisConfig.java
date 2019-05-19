@@ -53,4 +53,30 @@ public class RedisConfig {
         factory.getConnection()
             .flushDb();
     }
+    
+    /*
+    @EnableWebFluxSecurity
+    class SecurityConfiguration {
+        @Bean
+        UserDetailsRepository userDetailsRepository() {
+            return new MapUserDetailsRepository(user("rob").build(), user("josh").roles("USER","ADMIN").build());
+        }
+        private User.UserBuilder user(String username) {
+            return User.withUsername(username).password("password").roles("USER");
+        }
+        @Bean
+        SecurityWebFilterChain springSecurity(HttpSecurity http) {
+            return http
+                    .authorizeExchange()
+                        .pathMatchers("/users/me").authenticated()
+                        .pathMatchers("/users/{username}").access((auth,context) ->
+                            auth
+                                    .map( a-> a.getName().equals(context.getVariables().get("username")))
+                                    .map(AuthorizationDecision::new)
+                        )
+                        .anyExchange().hasRole("ADMIN")
+                        .and()
+                    .build();
+        }
+    }*/
 }
